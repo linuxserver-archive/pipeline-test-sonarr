@@ -227,7 +227,7 @@ pipeline {
             $class: 'UsernamePasswordMultiBinding',
             credentialsId: 'c1701109-4bdc-4a9c-b3ea-480bec9a2ca6',
             usernameVariable: 'DOCKERUSER',
-            passwordVariable: 'PASS'
+            passwordVariable: 'DOCKERPASS'
           ]
         ]) {
           echo 'Logging into DockerHub'
