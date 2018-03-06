@@ -177,7 +177,7 @@ pipeline {
       }
       steps{
         echo 'Grabbing the latest base image'
-        sh '''docker pull ${DIST_IMAGE}:${DIST_IMAGE}'''
+        sh '''docker pull ${DIST_IMAGE}:${DIST_TAG}'''
         echo 'Generating the package hash from the current versions'
         script{
           env.EXT_RELEASE = sh(
