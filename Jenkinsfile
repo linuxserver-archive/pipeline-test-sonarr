@@ -227,7 +227,7 @@ pipeline {
             $class: 'UsernamePasswordMultiBinding',
             credentialsId: 'c1701109-4bdc-4a9c-b3ea-480bec9a2ca6',
             usernameVariable: 'DOCKERUSER',
-            passwordVariable: 'DOCKERPASS'
+            passwordVariable: 'PASS'
           ]
         ]) {
           echo 'Logging into DockerHub'
@@ -271,12 +271,20 @@ pipeline {
                        "body": "**LinuxServer Changes:**\\n\\n'${LS_RELEASE_NOTES}'\\n**'${EXT_REPO}' Changes:**\\n\\n' > start
               elif [ ${EXT_RELEASE_TYPE} == 'os' ]; then
                 # Using base package version for release notes
-                 echo "Updating base packages to ${PACKAGE_TAG}" > releasebody.json
+                echo "Updating base packages to ${PACKAGE_TAG}" > releasebody.json
                 # Creating the start of the json payload
                 echo '{"tag_name":"'${EXT_RELEASE}'-pkg-'${PACKAGE_TAG}'-ls'${LS_TAG_NUMBER}'",\
                        "target_commitish": "master",\
                        "name": "'${EXT_RELEASE}'-pkg-'${PACKAGE_TAG}'-ls'${LS_TAG_NUMBER}'",\
                        "body": "**LinuxServer Changes:**\\n\\n'${LS_RELEASE_NOTES}'\\n**OS Changes:**\\n\\n' > start
+              elif [ ${EXT_RELEASE_TYPE} == 'deb_repo' ] || [ ${EXT_RELEASE_TYPE} == 'alpine_repo' ]; then
+                # Using base package version for release notes
+                echo "Updating deb repo packages to ${EXT_RELEASE}" > releasebody.json
+                # Creating the start of the json payload
+                echo '{"tag_name":"'${EXT_RELEASE}'-pkg-'${PACKAGE_TAG}'-ls'${LS_TAG_NUMBER}'",\
+                       "target_commitish": "master",\
+                       "name": "'${EXT_RELEASE}'-pkg-'${PACKAGE_TAG}'-ls'${LS_TAG_NUMBER}'",\
+                       "body": "**LinuxServer Changes:**\\n\\n'${LS_RELEASE_NOTES}'\\n**Repo Changes:**\\n\\n' > start
               fi
               # Add the end of the payload to the file
               printf '","draft": false,"prerelease": false}' >> releasebody.json
