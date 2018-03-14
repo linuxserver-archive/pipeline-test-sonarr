@@ -1,4 +1,4 @@
-FROM lsiobase/mono
+FROM lsiobase/mono:ubuntu
 
 # set version label
 ARG BUILD_DATE
